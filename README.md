@@ -4,7 +4,8 @@
 안전하고 신뢰도 높은 소프트웨어 개발을 위해 **CI/CD 파이프라인 내 코드 품질 자동 검증 시스템을 구축**했습니다. 본 프로젝트는 개발자가 코드를 Push하거나 Pull Request(PR) 생성 시, GitHub Actions가 자동으로 **정적 분석(SAST)** 과 **테스트 커버리지(JaCoCo)** 를 실행하고, 그 결과를 SonarCloud 대시보드에 통합 리포트하여 지속적인 코드 품질 관리 및 보안 강화를 자동화한 경험입니다.
 
 ## 아키텍처 및 핵심 플로우
-<img width="690" height="172" alt="image" src="https://github.com/user-attachments/assets/1fe415a3-6793-4bfe-8ad6-d52f49d327c1" />
+<img width="811" height="473" alt="image" src="https://github.com/user-attachments/assets/271b1317-ad61-4a15-91e8-f7579a86f270" />
+
 
 1. **[GitHub 개발자]:** `main` 브랜치에 코드를 `Push`하거나 Pull Request를 생성합니다.
 
