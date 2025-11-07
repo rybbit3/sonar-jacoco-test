@@ -1,0 +1,12 @@
+pluginManagement {
+    repositories {
+        // SonarQube 플러그인을 찾기 위해 Gradle 플러그인 포털을 명시적으로 추가
+        gradlePluginPortal()
+        
+        // (선택 사항이지만) 의존성을 위해 Maven Central도 추가
+        mavenCentral()
+    }
+}
+
+// 프로젝트 이름을 설정합니다 (가이드와 동일하게)
+rootProject.name = 'sonar-jacoco-lab'
