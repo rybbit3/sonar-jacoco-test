@@ -1,60 +1,68 @@
 plugins {
-    id 'java'
-    id 'jacoco' // 1. JaCoCo 플러그인 적용
-    id 'org.sonarqube' version '5.0.0.4638' // 2. SonarQube 플러그인 적용
+id 'java'
+id 'jacoco' // 1. JaCoCo 플러그인 적용
+
+// 🚨 수정 1: Gradle 9.x와 호환되는 최신 버전으로 변경
+id 'org.sonarqube' version '5.1.1.4922' 
+
+
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
-// 🚨 수정 1: 'sourceCompatibility'는 'java' 블록 안에 있어야 합니다.
+// 🚨 수정 2: 'sourceCompatibility'는 'java' 블록 안에 있어야 합니다.
 java {
-    sourceCompatibility = '17'
+sourceCompatibility = '17'
 }
 
 repositories {
-    mavenCentral()
+mavenCentral()
 }
 
-// 🚨 수정 2: JUnit 5 실행을 위한 의존성으로 변경
+// 🚨 수정 3: JUnit 5 실행을 위한 올바른 의존성
 dependencies {
-    // JUnit BOM(Bill of Materials)으로 버전 관리
-    testImplementation platform('org.junit:junit-bom:5.10.0')
+// JUnit BOM(Bill of Materials)으로 버전 관리
+testImplementation platform('org.junit:junit-bom:5.10.0')
 
-    // 테스트 작성에 필요한 API
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+// 테스트 작성에 필요한 API
+testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    // (가장 중요) 테스트 실행을 위한 Launcher (이전 빌드 실패 원인)
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    
-    // (권장) 테스트 실행 엔진
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+// (가장 중요) 테스트 실행을 위한 Launcher (이전 빌드 실패 원인)
+testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+// (권장) 테스트 실행 엔진
+testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+
 }
 
 test {
-    useJUnitPlatform()
-    // 3. 'test' 태스크가 끝나면 JaCoCo 리포트를 생성하도록 설정
-    finalizedBy jacocoTestReport
+useJUnitPlatform()
+// 3. 'test' 태스크가 끝나면 JaCoCo 리포트를 생성하도록 설정
+finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
-    dependsOn test // jacocoTestReport는 test 태스크에 의존
-    reports {
-        // 4. SonarQube가 읽을 XML 리포트 생성
-        xml.required = true
-        // (선택) 사람이 볼 HTML 리포트도 생성
-        html.required = true
-    }
+dependsOn test // jacocoTestReport는 test 태스크에 의존
+reports {
+// 4. SonarQube가 읽을 XML 리포트 생성
+xml.required = true
+// (선택) 사람이 볼 HTML 리포트도 생성
+html.required = true
+}
 }
 
 sonar {
-    properties {
-        // 5. 사용자 값 적용 (수정 완료)
-        property "sonar.projectKey", "rybbit3" 
-        property "sonar.organization", "rybbit3" 
-        property "sonar.host.url", "https://sonarcloud.io"
+properties {
+// 5. 사용자 값 적용 (rybbit3)
+property "sonar.projectKey", "rybbit3"
+property "sonar.organization", "rybbit3"
+property "sonar.host.url", "https://sonarcloud.io"
 
-        // 6. SonarQube에게 JaCoCo 리포트 파일의 위치를 알려줌 (핵심!)
-        property "sonar.coverage.jacoco.xmlReportPaths", "${build.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-    }
+    // 6. SonarQube에게 JaCoCo 리포트 파일의 위치를 알려줌 (핵심!)
+    property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+}
+
+
 }
