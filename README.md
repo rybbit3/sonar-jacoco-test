@@ -1,1 +1,3 @@
 # sonar-jacoco-test
+
+test
